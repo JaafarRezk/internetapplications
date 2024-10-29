@@ -2,7 +2,10 @@
 
 namespace App\Repositories;
 
+use App\Services\FileService;
+use App\Services\LogService;
 use App\Services\UserService;
+use App\Services\GroupService;
 use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
 
 
@@ -18,15 +21,20 @@ class Facade extends BaseRepository
 
     private $facadeMapper = [];
     protected $userService;
+    protected $fileService;
+    protected $groupService;
     protected $aspects_map = [];
 
     public function __construct($message)
     {
         $this->userService = new UserService();
-      
+        $this->groupService = new GroupService();
+        $this->fileService = new FileService();
+
         $this->facadeMapper = [
             "user" => "App\\Repositories\\UserFacade",
-          
+            "group" => "App\\Repositories\\GroupFacade",
+            "file" => "App\\Repositories\\FileFacade",
         ];
 
         $this->message = $message;
@@ -85,7 +93,9 @@ class Facade extends BaseRepository
             $this->executeBefore($func, $facadeClass);
 
             $result = $facadeClass->$func();
-            $this->message["response"] = $this->response($result, __("api." . $facade . "." . $func . ".success"), __("api." . $facade . "." . $func . ".failure"));
+            $this->message["response"] = $this->response($result, 
+            __("api." . $facade . "." . $func . ".success"), 
+            __("api." . $facade . "." . $func . ".failure"));
 
             $this->executeAfter($func, $facadeClass);
 

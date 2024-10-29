@@ -16,13 +16,7 @@ class GenericModel extends Model
 
     public $validation_rules = [];
 
-    /**
-     *
-     * @param int $id
-     * @return Model
-     * @throws ObjectNotFoundException
-     * @throws \Exception
-     */
+  
     public static function fetchByIdWithCacheAndAuth($id)
     {
         $class = get_called_class();
@@ -42,21 +36,16 @@ class GenericModel extends Model
 
         $trace = debug_backtrace();
         $policy = Gate::getPolicyFor($class);
-
-        if (method_exists($policy, $trace[1]['function']) && !auth()->user()->can($trace[1]['function'], $object)) {
+        
+        if ($policy && method_exists($policy, $trace[1]['function']) 
+            && !auth()->user()->can($trace[1]['function'], $object)) {
             throw new \Exception("Unauthorized access");
         }
 
         return $object;
     }
 
-    /**
-     *
-     * @param array $data البيانات المراد تحديثها
-     * @param array $conditions شرط مخصص (اختياري)
-     * @return int عدد السجلات التي تم تحديثها
-     * @throws ObjectNotFoundException
-     */
+  
     public function updateWithConditions($data = [], $conditions = [])
     {
         $class = get_called_class();
@@ -74,11 +63,7 @@ class GenericModel extends Model
         return $res;
     }
 
-    /**
-     *
-     * @return int نتيجة الحذف (1 إذا تم بنجاح، 0 إذا فشل)
-     * @throws ObjectNotFoundException
-     */
+   
     public function deleteWithCache()
     {
         self::removeCacheForIds([$this->id]);
@@ -92,10 +77,7 @@ class GenericModel extends Model
         return $res;
     }
 
-    /**
-     *
-     * @param array $id_array مصفوفة من المعرفات (IDs) للكائنات المراد حذفها من التخزين المؤقت
-     */
+   
     public static function removeCacheForIds($id_array)
     {
         $class = get_called_class();
@@ -105,12 +87,7 @@ class GenericModel extends Model
         }
     }
 
-    /**
-     *
-     * @param array $parameters البيانات المطلوبة لإنشاء الكائن
-     * @return Model الكائن الذي تم إنشاؤه
-     * @throws CreateObjectException
-     */
+  
     public static function createNewWithValidation($parameters)
     {
         $class_name = get_called_class();

@@ -19,20 +19,27 @@ class UserService extends Service{
             'email' => 'required|email',
             'password' => 'required|string'
         ])->validated();
-
+    
         $user = User::where('email', $data['email'])->first();
-
+    
         if (!$user || !Hash::check($data['password'], $user->password)) {
-            throw new loginError("User doesn't exists or credentials are wrong");
+            throw new loginError("User doesn't exist or credentials are wrong");
         }
-        $user->getRoleNames();
+    
+        $roles = $user->getRoleNames()->toArray(); 
         $token = $user->createToken('apiToken')->plainTextToken;
-
+    
         return [
-            'user' => $user,
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'roles' => $roles, 
+            ],
             'token' => $token
         ];
-    } 
+    }
+    
        public function logOut(): bool
     {
         auth()->user()->tokens()->delete();

@@ -1,0 +1,76 @@
+{
+    "name": "spatie/laravel-route-discovery",
+    "description": "Auto register routes using PHP attributes",
+    "keywords": [
+        "spatie",
+        "laravel-route-discovery"
+    ],
+    "homepage": "https://github.com/spatie/laravel-route-discovery",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Freek Van der Herten",
+            "email": "freek@spatie.be",
+            "homepage": "https://spatie.be",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "illuminate/contracts": "^8.67|^9.0|^10.0|^11.0",
+        "illuminate/support": "^8.77|^9.0|^10.0|^11.0",
+        "spatie/laravel-package-tools": "^1.10",
+        "symfony/finder": "^5.4.2|^6.0|^7.0"
+    },
+    "require-dev": {
+        "nunomaduro/larastan": "^1.0.2|^2.0",
+        "orchestra/testbench": "^6.23.2|^7.0|^8.0|^9.0",
+        "pestphp/pest": "^1.21|^2.34",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan-deprecation-rules": "^1.0",
+        "phpstan/phpstan-phpunit": "^1.0",
+        "spatie/laravel-ray": "^1.27"
+    },
+    "autoload": {
+        "psr-4": {
+            "Spatie\\RouteDiscovery\\": "src",
+            "Spatie\\RouteDiscovery\\Database\\Factories\\": "database/factories"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Spatie\\RouteDiscovery\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/pest --colors=always",
+        "test-coverage": "vendor/bin/pest --coverage"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "phpstan/extension-installer": true,
+            "pestphp/pest-plugin": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Spatie\\RouteDiscovery\\RouteDiscoveryServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "funding": [
+        {
+            "type": "github",
+            "url": "https://github.com/sponsors/spatie"
+        },
+        {
+            "type": "other",
+            "url": "https://spatie.be/open-source/support-us"
+        }
+    ]
+}

@@ -20,7 +20,6 @@ class File extends GenericModel
       'file_holder_id',
     ];
 
-    //public $hidden = ['path'];
 
     protected $casts = [
         'checked' => 'integer',
