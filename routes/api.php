@@ -11,10 +11,10 @@ use Illuminate\Support\Facades\Cache;
 
 Route::controller(TransformerController::class)->group(function () {
 
-    Route::post('/auth/logIn', [TransformerController::class, 'transform'])->name('user.logIn');
-    Route::post('/auth/register', [TransformerController::class, 'transform'])->name('user.register');
-
-
+  
+        Route::post('/auth/logIn', [TransformerController::class, 'transform'])->name('user.logIn');
+        Route::post('/auth/register', [TransformerController::class, 'transform'])->name('user.register')->middleware('throttle:api');
+    
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/auth/logOut', [TransformerController::class, 'transform'])->name('user.logOut');

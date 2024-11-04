@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Cache;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes

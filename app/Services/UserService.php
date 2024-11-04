@@ -7,6 +7,7 @@ use App\Exceptions\loginError;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class UserService extends Service{
 
@@ -48,15 +49,39 @@ class UserService extends Service{
 
     
     public function register($bodyParameters)
-    {
-        $parameters = [
-            'name' => $bodyParameters['name'],
-            'email' => $bodyParameters['email'],
-            'password' => bcrypt($bodyParameters['password']) 
-        ];
-    
-        return User::createUserWithDefaultPermissionsAndRole($parameters);
+{
+    $parameters = [
+        'name' => $bodyParameters['name'],
+        'email' => $bodyParameters['email'],
+        'password' => bcrypt($bodyParameters['password']) 
+    ];
+
+    $attempts = 5; // عدد المحاولات
+    while ($attempts > 0) {
+        try {
+            return DB::transaction(function () use ($parameters) {
+                // تأكد من عدم وجود بيانات مستخدم مكررة
+                if (User::where('email', $parameters['email'])->exists()) {
+                    throw new \Exception('Email already exists');
+                }
+
+                return User::createUserWithDefaultPermissionsAndRole($parameters);
+            });
+        } catch (\Exception $e) {
+            // تحقق من حدوث deadlock
+            if ($e->getCode() === '40001') {
+                $attempts--;
+                sleep(1); // الانتظار قبل إعادة المحاولة
+            } else {
+                throw $e; // أعادة طرح الاستثناء لأي خطأ آخر
+            }
+        }
     }
+
+    throw new \Exception('Unable to register after multiple attempts due to deadlock.');
+}
+
+    
     
     
 

@@ -52,8 +52,8 @@ return [
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
             'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => 'utf8',
-            'collation' => 'utf8_general_ci',
+            'charset' => 'utf8mb4', 
+            'collation' => 'utf8mb4_unicode_ci', 
             'prefix' => '',
             'prefix_indexes' => true,
             'strict' => true,
@@ -135,6 +135,7 @@ return [
             'password' => env('REDIS_PASSWORD'),
             'port' => env('REDIS_PORT', '6379'),
             'database' => env('REDIS_DB', '0'),
+            'timeout' => 2.5,
         ],
 
         'cache' => [
@@ -144,6 +145,7 @@ return [
             'password' => env('REDIS_PASSWORD'),
             'port' => env('REDIS_PORT', '6379'),
             'database' => env('REDIS_CACHE_DB', '1'),
+            'timeout' => 2.5,
         ],
 
     ],
