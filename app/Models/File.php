@@ -9,32 +9,38 @@ class File extends GenericModel
 {
     use HasFactory;
 
-    public $fillable = [
-      'name',
-      'path',
-      'mime_type',
-      'size',
-      'checked',
-      'version',
-      'user_id',
-      'status',
-      'file_holder_id',
+    protected $fillable = [
+        'name',
+        'path',
+        'mime_type',
+        'size',
+        'checked',
+        'user_id',
+        'file_holder_id',
     ];
-
 
     protected $casts = [
         'checked' => 'integer',
     ];
-    public function deleteFileFSDAO(){
+
+   
+    public function versions()
+    {
+        return $this->hasMany(FileVersion::class);
+    }
+
+    public function deleteFileFSDAO()
+    {
         return Storage::disk('public')->delete($this->path);
     }
 
-    public function holder(){
-        return $this->belongsTo(User::class,'file_holder_id');
+    public function holder()
+    {
+        return $this->belongsTo(User::class, 'file_holder_id');
     }
 
     public function groups()
     {
-        return $this->belongsToMany(Group::class, 'group_files','file_id')->withTimestamps();
+        return $this->belongsToMany(Group::class, 'group_files', 'file_id')->withTimestamps();
     }
 }

@@ -21,7 +21,6 @@ namespace App\Models{
  * @property string $mime_type
  * @property int $size
  * @property int $checked
- * @property int $version
  * @property int|null $user_id
  * @property int|null $file_holder_id
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -29,6 +28,8 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Group> $groups
  * @property-read int|null $groups_count
  * @property-read \App\Models\User|null $holder
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\FileVersion> $versions
+ * @property-read int|null $versions_count
  * @method static \Illuminate\Database\Eloquent\Builder|File newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|File newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|File query()
@@ -42,7 +43,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|File whereSize($value)
  * @method static \Illuminate\Database\Eloquent\Builder|File whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|File whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|File whereVersion($value)
  */
 	class File extends \Eloquent {}
 }
@@ -87,6 +87,7 @@ namespace App\Models{
  * @property int $version_number
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\File $file
  * @method static \Illuminate\Database\Eloquent\Builder|FileVersion newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|FileVersion newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|FileVersion query()

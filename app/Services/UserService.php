@@ -56,11 +56,10 @@ class UserService extends Service{
         'password' => bcrypt($bodyParameters['password']) 
     ];
 
-    $attempts = 5; // عدد المحاولات
+    $attempts = 5; 
     while ($attempts > 0) {
         try {
             return DB::transaction(function () use ($parameters) {
-                // تأكد من عدم وجود بيانات مستخدم مكررة
                 if (User::where('email', $parameters['email'])->exists()) {
                     throw new \Exception('Email already exists');
                 }
@@ -68,12 +67,11 @@ class UserService extends Service{
                 return User::createUserWithDefaultPermissionsAndRole($parameters);
             });
         } catch (\Exception $e) {
-            // تحقق من حدوث deadlock
             if ($e->getCode() === '40001') {
                 $attempts--;
-                sleep(1); // الانتظار قبل إعادة المحاولة
+                sleep(1); 
             } else {
-                throw $e; // أعادة طرح الاستثناء لأي خطأ آخر
+                throw $e;
             }
         }
     }

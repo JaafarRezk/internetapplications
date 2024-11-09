@@ -12,20 +12,22 @@ use Illuminate\Support\Facades\Cache;
 Route::controller(TransformerController::class)->group(function () {
 
   
-        Route::post('/auth/logIn', [TransformerController::class, 'transform'])->name('user.logIn');
-        Route::post('/auth/register', [TransformerController::class, 'transform'])->name('user.register')->middleware('throttle:api');
+        Route::post('/auth/logIn', 'transform')->name('user.logIn');
+        Route::post('/auth/register', 'transform')->name('user.register')->middleware('throttle:api');
     
 
     Route::middleware('auth:sanctum')->group(function () {
-        Route::post('/auth/logOut', [TransformerController::class, 'transform'])->name('user.logOut');
-        Route::get('/allUsers', [TransformerController::class, 'transform'])->name('user.allUsers');
-        Route::post('/createGroup', [TransformerController::class, 'transform'])->name('group.createGroup');
-        Route::get('file/getMyFiles', [TransformerController::class, 'transform'])->name('file.getMyFiles');
-        Route::post('file/checkIn/{id}', [TransformerController::class, 'transform'])->name('file.checkIn');
-        Route::post('file/checkOut', [TransformerController::class, 'transform'])->name('file.checkOut');
-        Route::post('file/bulkCheckIn', [TransformerController::class, 'transform'])->name('file.bulkCheckIn');
-        Route::post('file/uploadFiles', [TransformerController::class, 'transform'])->name('file.uploadFiles');
-        Route::delete('file/removeFiles', [TransformerController::class, 'transform'])->name('file.removeFiles');
-        Route::get('file/readFile/{id}', [TransformerController::class, 'transform'])->name('file.readFile');
+        Route::post('/auth/logOut', 'transform')->name('user.logOut');
+        Route::get('/allUsers',  'transform')->name('user.allUsers');
+        Route::post('file/uploadFiles', 'transform')->name('file.uploadFiles');
+        Route::post('/createGroup','transform')->name('group.createGroup');
+        Route::post('/addFilesToGroup', 'transform')->name('group.addFilesToGroup');
+        Route::post('/addUsersToGroup', 'transform')->name('group.addUsersToGroup');
+        Route::get('file/getMyFiles','transform')->name('file.getMyFiles')->middleware('throttle:api');
+        Route::post('file/checkIn/{id}',  'transform')->name('file.checkIn');
+        Route::post('file/checkOut',  'transform')->name('file.checkOut');
+        Route::post('file/checkInMultipleFiles',  'transform')->name('file.checkInMultipleFiles');
     });
 });
+
+

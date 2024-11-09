@@ -10,7 +10,7 @@ class FileFacade extends Facade
     const aspects_map = array(
         'getMyFiles' => array('TransactionAspect', 'LoggingAspect'),
         'checkIn' => array('TransactionAspect', 'LoggingAspect','FileLoggingAspect'),
-        'bulkCheckIn' => array('TransactionAspect', 'LoggingAspect','FileLoggingAspect'),
+        'checkInMultipleFiles' => array('TransactionAspect', 'LoggingAspect','FileLoggingAspect'),
         'checkOut' => array('TransactionAspect', 'LoggingAspect','FileLoggingAspect'),
         'uploadFiles' => array('TransactionAspect', 'LoggingAspect','FileLoggingAspect'),
         'removeFiles' => array('TransactionAspect', 'LoggingAspect'),
@@ -21,6 +21,13 @@ class FileFacade extends Facade
     {
         parent::__construct($message);
     }
+
+    public function uploadFiles()
+    {
+        $files = $this->fileService->uploadFiles($this->message['bodyParameters']);
+        return $files;
+    }
+
 
     public function checkIn()
     {
@@ -37,12 +44,19 @@ class FileFacade extends Facade
         return $file;
     }
 
+    public function checkInMultipleFiles()
+    {
+        $fileIds = $this->message['bodyParameters']['fileIds'];
+        $files = $this->fileService->checkInMultipleFiles($fileIds);
+        return $files;
+    }
+
     public function getMyFiles()
     {
         $files = $this->fileService->getMyFiles();
         return $files;
     }
-
+/*
     public function bulkCheckIn()
     {
         $id_array = $this->message['bodyParameters'];
@@ -50,12 +64,7 @@ class FileFacade extends Facade
         return $file;
     }
 
-    public function uploadFiles()
-    {
-        $files = $this->fileService->uploadFiles($this->message['bodyParameters']);
-        return $files;
-    }
-
+   
     public function removeFiles()
     {
 
@@ -79,5 +88,5 @@ class FileFacade extends Facade
 
         return $res;
     }
-
+*/
 }

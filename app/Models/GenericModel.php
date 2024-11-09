@@ -34,10 +34,11 @@ class GenericModel extends Model
         }
 
         $trace = debug_backtrace();
+        $functionName = $trace[1]['function'];
         $policy = Gate::getPolicyFor($class);
-
-        if ($policy && method_exists($policy, $trace[1]['function'])
-            && !auth()->user()->can($trace[1]['function'], $object)) {
+    
+        if ($policy && method_exists($policy, $functionName) 
+            && !auth()->user()->can($functionName, $object)) {
             throw new \Exception("Unauthorized access");
         }
 
@@ -58,7 +59,7 @@ class GenericModel extends Model
         $res = $this->where($conditions + ['id' => $this->id])->update($data);
 
         if ($res < 1) {
-            throw new ObjectNotFoundException($class . ' object not found');
+            throw new ObjectNotFoundException($class . ' object not found1');
         }
 
         return $res;

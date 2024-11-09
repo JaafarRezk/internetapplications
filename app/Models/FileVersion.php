@@ -17,4 +17,9 @@ class FileVersion extends Model
         'size',
         'version_number',
     ];
+
+    public function file()
+    {
+        return $this->belongsTo(File::class);
+    }
 }

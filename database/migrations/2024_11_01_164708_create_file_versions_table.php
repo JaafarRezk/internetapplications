@@ -15,11 +15,11 @@ return new class extends Migration
             $table->string('path');
             $table->string('mime_type');
             $table->unsignedBigInteger('size');
-            $table->bigInteger('version_number')->default(0);
+            $table->bigInteger('version_number');
             $table->timestamps();
 
-            // Set up foreign key constraint
             $table->foreign('file_id')->references('id')->on('files')->onDelete('cascade');
+            $table->index(['file_id', 'version_number']);
         });
     }
 
